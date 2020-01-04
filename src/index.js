@@ -15,6 +15,11 @@ export default function App() {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+  const [addressComponent, setAddressComponent] = useState({
+    locality: '',
+    streetNumber: '',
+    streetName:  '',
+  });
   
     const request_location_runtime_permission = async () => {
         try {
@@ -48,13 +53,21 @@ export default function App() {
           console.log(err);
         }
       };
-      Geocoder.from(position.latitude,position.longitude)
+      const localEndereco = async () => {
+      Geocoder.from(position)
       .then(json => {
-      var addressComponent = json.results[0].address_components[0];
-        console.log(addressComponent);
+         var address = json.results[0].formatted_address;
+       // setAddressComponent({
+          //...addressComponent,
+         // locality: address.locality,
+         // streetNumber: address.streetNumber,
+         // streetName: address.streetName
+        //});
+      
+        console.log(address)
       })
       .catch(error => console.warn(error));
-  
+    }
 
   return (
     <View style={styles.container}>
@@ -85,6 +98,13 @@ export default function App() {
         <Text style={{fontSize: 18}}>{position.longitude}</Text>
       </View>
     </View>
+    <TouchableOpacity
+      style={styles.locationButton1}
+      onPress={() => {
+        localEndereco();
+      }}>
+      <Icon name="my-location" color={'#fff'} size={30} />
+    </TouchableOpacity>
     <TouchableOpacity
       style={styles.locationButton}
       onPress={() => {
@@ -146,7 +166,19 @@ const styles = StyleSheet.create({
     locationButton: {
     backgroundColor: '#e74c3c',
     borderRadius: 150,
-    marginTop: -25,
+    marginTop: -5,
+    width: 50,
+    height: 50,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    elevation: 8,
+  },
+  locationButton1: {
+    backgroundColor: '#696969',
+    borderRadius: 150,
+    marginTop: -75,
     width: 50,
     height: 50,
     alignSelf: 'center',
