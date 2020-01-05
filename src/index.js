@@ -5,7 +5,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import MapView, {Marker} from 'react-native-maps';
 import Geocoder from 'react-native-geocoding';
  
-
  Geocoder.init("AIzaSyAm7cwW_QWAGx7w5BCUt45XvUI3jGclyoo", {language : "en"}); // set the language
 
 export default function App() {
@@ -16,7 +15,7 @@ export default function App() {
     longitudeDelta: 0.0421,
   });
   const [addressComponent, setAddressComponent] = useState({
-    locality: [],
+    end: "",
     
   });
   
@@ -58,7 +57,7 @@ export default function App() {
          var address = json.results[0].formatted_address;
         setAddressComponent({
           ...addressComponent,
-         locality: address.formatted_address,
+          end : address
          // streetNumber: address.streetNumber,
          // streetName: address.streetName
         });
@@ -101,7 +100,7 @@ export default function App() {
     <Text style={styles.positonBoxTitle}>Seu endereco</Text>
       <View style={styles.positonBoxLatLon}>
         <Text style={{fontSize: 18}}>End.</Text>
-        <Text style={{fontSize: 18}}>{addressComponent.locality}</Text>
+        <Text style={{fontSize: 18}}>{addressComponent.end}</Text>
         </View>
     </View>
     
@@ -169,7 +168,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       borderRadius: 20,
       opacity: 0.75,
-      marginTop: -240,
+      marginTop: -270,
       marginHorizontal: 40,
       padding: 25,
       shadowColor: '#000',
@@ -199,7 +198,7 @@ const styles = StyleSheet.create({
   locationButton1: {
     backgroundColor: '#696969',
     borderRadius: 150,
-    marginTop: -125,
+    marginTop: -130,
     marginLeft: 20,
     width: 50,
     height: 50,
