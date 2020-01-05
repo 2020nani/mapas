@@ -16,9 +16,8 @@ export default function App() {
     longitudeDelta: 0.0421,
   });
   const [addressComponent, setAddressComponent] = useState({
-    locality: '',
-    streetNumber: '',
-    streetName:  '',
+    locality: [],
+    
   });
   
     const request_location_runtime_permission = async () => {
@@ -57,14 +56,14 @@ export default function App() {
       Geocoder.from(position)
       .then(json => {
          var address = json.results[0].formatted_address;
-       // setAddressComponent({
-          //...addressComponent,
-         // locality: address.locality,
+        setAddressComponent({
+          ...addressComponent,
+         locality: address.formatted_address,
          // streetNumber: address.streetNumber,
          // streetName: address.streetName
-        //});
+        });
       
-        console.log(address)
+        console.log(addressComponent)
       })
       .catch(error => console.warn(error));
     }
@@ -87,7 +86,7 @@ export default function App() {
           description={'Testando o marcador no mapa'}
         />
     </MapView>
-    <View style={styles.positonBox}>
+    <View style={styles.positonBox1}>
       <Text style={styles.positonBoxTitle}>Sua Localização</Text>
       <View style={styles.positonBoxLatLon}>
         <Text style={{fontSize: 18}}>Lat.</Text>
@@ -96,20 +95,31 @@ export default function App() {
       <View style={styles.positonBoxLatLon}>
         <Text style={{fontSize: 18}}>Lon.</Text>
         <Text style={{fontSize: 18}}>{position.longitude}</Text>
-      </View>
+      </View>  
     </View>
+    <View style = {styles.positonBox}>
+    <Text style={styles.positonBoxTitle}>Seu endereco</Text>
+      <View style={styles.positonBoxLatLon}>
+        <Text style={{fontSize: 18}}>End.</Text>
+        <Text style={{fontSize: 18}}>{addressComponent.locality}</Text>
+        </View>
+    </View>
+    
     <TouchableOpacity
       style={styles.locationButton1}
       onPress={() => {
         localEndereco();
       }}>
-      <Icon name="my-location" color={'#fff'} size={30} />
+        <Text style={{fontSize: 12}}>End</Text>
+      <Icon name="my-location" color={'#fff'} size={30}  />
     </TouchableOpacity>
     <TouchableOpacity
+    
       style={styles.locationButton}
       onPress={() => {
         request_location_runtime_permission();
       }}>
+        <Text style={{fontSize: 12}}>Loc</Text>
       <Icon name="my-location" color={'#fff'} size={30} />
     </TouchableOpacity>
     <View style={styles.logo}>
@@ -135,7 +145,7 @@ const styles = StyleSheet.create({
       borderRadius: 15,
       paddingHorizontal: 15,
       elevation: 5,
-      marginTop: -730,
+      marginTop: -550,
       alignSelf: 'center',
       marginRight: 10,
       flexDirection: 'row',
@@ -149,7 +159,17 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       borderRadius: 20,
       opacity: 0.75,
-      marginTop: -170,
+      marginTop: 0,
+      marginHorizontal: 40,
+      padding: 25,
+      shadowColor: '#000',
+      elevation: 5,
+    },
+    positonBox1: {
+      backgroundColor: '#fff',
+      borderRadius: 20,
+      opacity: 0.75,
+      marginTop: -240,
       marginHorizontal: 40,
       padding: 25,
       shadowColor: '#000',
@@ -166,10 +186,11 @@ const styles = StyleSheet.create({
     locationButton: {
     backgroundColor: '#e74c3c',
     borderRadius: 150,
-    marginTop: -5,
+    marginTop: -50,
+    marginRight: 20,
     width: 50,
     height: 50,
-    alignSelf: 'center',
+    alignSelf: "flex-end",
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
@@ -178,10 +199,11 @@ const styles = StyleSheet.create({
   locationButton1: {
     backgroundColor: '#696969',
     borderRadius: 150,
-    marginTop: -75,
+    marginTop: -125,
+    marginLeft: 20,
     width: 50,
     height: 50,
-    alignSelf: 'center',
+    alignSelf: "flex-start",
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
